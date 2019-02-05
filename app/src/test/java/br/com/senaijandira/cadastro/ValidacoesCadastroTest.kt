@@ -1,5 +1,9 @@
 package br.com.senaijandira.cadastro
 
+import br.com.senaijandira.cadastro.ui.ehSequenciaNumerica
+import br.com.senaijandira.cadastro.ui.textoContemNumero
+import br.com.senaijandira.cadastro.ui.validarMinimoCaracteres
+import br.com.senaijandira.cadastro.ui.validarTextoComArroba
 import org.junit.Assert
 import org.junit.Test
 
@@ -103,7 +107,7 @@ class ValidacoesCadastroTest {
         val input = "oie2tudobem"
         val resultadoEsperado = true
 
-        val resultado =  textoContemNumero(input)
+        val resultado = textoContemNumero(input)
 
         Assert.assertEquals(resultadoEsperado, resultado)
     }
@@ -114,7 +118,7 @@ class ValidacoesCadastroTest {
         val input = "oietudobem"
         val resultadoEsperado = false
 
-        val resultado =  textoContemNumero(input)
+        val resultado = textoContemNumero(input)
 
         Assert.assertEquals(resultadoEsperado, resultado)
     }
@@ -126,7 +130,7 @@ class ValidacoesCadastroTest {
         val input = "1234"
         val resultadoEsperado = true
 
-        val resultado =  ehSequenciaNumerica(input)
+        val resultado = ehSequenciaNumerica(input)
 
         Assert.assertEquals(resultadoEsperado, resultado)
     }
@@ -137,7 +141,7 @@ class ValidacoesCadastroTest {
         val input = "1234A"
         val resultadoEsperado = false
 
-        val resultado =  ehSequenciaNumerica(input)
+        val resultado = ehSequenciaNumerica(input)
 
         Assert.assertEquals(resultadoEsperado, resultado)
     }

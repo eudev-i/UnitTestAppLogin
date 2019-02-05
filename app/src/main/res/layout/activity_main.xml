@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".ui.MainActivity"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cadastro" />
+        android:text="Cadastro"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"/>
 
 
     <EditText
@@ -32,11 +37,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint="Senha"/>
+        android:hint="Senha"
+        android:layout_marginBottom="20dp"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:visibility="gone"
+/>
 
     <Button
         android:id="@+id/btSalvar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar" />
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:text="Salvar"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:layout_gravity="center"
+        />
+
+
 </LinearLayout>

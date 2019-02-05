@@ -3,6 +3,7 @@ package br.com.senaijandira.cadastro
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.EditText
+import br.com.senaijandira.cadastro.ui.MainActivity
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert
 import org.junit.Before

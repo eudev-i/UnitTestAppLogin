@@ -9,6 +9,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.Button
 import android.widget.EditText
+import br.com.senaijandira.cadastro.ui.MainActivity
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.*
 import org.junit.runner.RunWith

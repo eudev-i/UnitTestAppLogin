@@ -1,4 +1,4 @@
-package br.com.senaijandira.cadastro
+package br.com.senaijandira.cadastro.ui
 
 
 fun validarMinimoCaracteres(texto:String, minimo:Int) : Boolean{

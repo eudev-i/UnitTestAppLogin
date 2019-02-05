@@ -1,7 +1,12 @@
-package br.com.senaijandira.cadastro
+package br.com.senaijandira.cadastro.ui
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import br.com.senaijandira.cadastro.R
+import br.com.senaijandira.cadastro.viewmodel.CadastroViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -9,6 +14,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val MINIMO_CARACTERES_NOME = 3
         val MINIMO_CARACTERES_SENHA = 4
+    }
+
+    val viewModel by lazy {
+        ViewModelProviders.of(this).get(CadastroViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +52,24 @@ class MainActivity : AppCompatActivity() {
                 etPassword.error = "Senha não pode ser sequencia"
             }
 
+            viewModel.cadastrarUsuario()
+
+        }
+
+        viewModel.loading.observe(this, Observer {
+            updateLoading(it)
+        })
+    }
+
+    fun updateLoading(loading:Boolean?){
+        loading?.let{
+            if(loading){
+                btSalvar.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }else{
+                btSalvar.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
         }
     }
 }
