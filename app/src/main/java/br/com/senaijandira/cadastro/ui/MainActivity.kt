@@ -3,9 +3,11 @@ package br.com.senaijandira.cadastro.ui
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.com.senaijandira.cadastro.R
+import br.com.senaijandira.cadastro.model.Usuario
 import br.com.senaijandira.cadastro.viewmodel.CadastroViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         val MINIMO_CARACTERES_NOME = 3
         val MINIMO_CARACTERES_SENHA = 4
     }
+
+    private var errorSnack: Snackbar? = null
 
     val viewModel by lazy {
         ViewModelProviders.of(this).get(CadastroViewModel::class.java)
@@ -31,34 +35,62 @@ class MainActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
             val senha = etPassword.text.toString()
 
-            //validar nome
-            if(!validarMinimoCaracteres(nome, MINIMO_CARACTERES_NOME)){
-                etUserName.error = "Nome deve ter pelo menos ${MINIMO_CARACTERES_NOME} caracteres"
-            }
+            if(validarFormulario(nome,email,senha)){
 
-            if(!validarTextoComArroba(email)){
-                etEmail.error = "Email deve ter @"
+                viewModel.cadastrarUsuario(
+                        Usuario(nome,email, senha)
+                )
             }
-
-            if(validarMinimoCaracteres(senha, MINIMO_CARACTERES_SENHA)){
-                etPassword.error = "Senha deve ter ${MINIMO_CARACTERES_SENHA} caracteres"
-            }
-
-            if(!textoContemNumero(senha)){
-                etPassword.error = "Senha deve ter numero"
-            }
-
-            if(ehSequenciaNumerica(senha)){
-                etPassword.error = "Senha não pode ser sequencia"
-            }
-
-            viewModel.cadastrarUsuario()
 
         }
 
         viewModel.loading.observe(this, Observer {
             updateLoading(it)
         })
+
+        viewModel.error.observe(this, Observer {
+            updateError(it)
+        })
+    }
+
+    fun validarFormulario(nome:String, email:String, senha:String) : Boolean{
+
+        var retorno = true
+
+        //VALIDAR NOME
+        if(!validarMinimoCaracteres(nome, MINIMO_CARACTERES_NOME)){
+            etUserName.error = "Nome deve ter pelo menos ${MINIMO_CARACTERES_NOME} caracteres"
+
+            retorno = false
+        }
+
+        //VALIDAR EMAIL
+        if(!validarTextoComArroba(email)){
+            etEmail.error = "Email deve ter @"
+
+            retorno = false
+        }
+
+        //VALIDAR SENHA
+        if(validarMinimoCaracteres(senha, MINIMO_CARACTERES_SENHA)){
+            etPassword.error = "Senha deve ter ${MINIMO_CARACTERES_SENHA} caracteres"
+
+            retorno = false
+        }
+
+        if(!textoContemNumero(senha)){
+            etPassword.error = "Senha deve ter numero"
+
+            retorno = false
+        }
+
+        if(ehSequenciaNumerica(senha)){
+            etPassword.error = "Senha não pode ser sequencia"
+
+            retorno = false
+        }
+
+        return retorno
     }
 
     fun updateLoading(loading:Boolean?){
@@ -71,5 +103,34 @@ class MainActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
             }
         }
+    }
+
+    fun updateError(error:Boolean?){
+
+        error?.let {
+            if(error){
+                errorSnack = Snackbar.make(rootView, "Erro de conexão", Snackbar.LENGTH_INDEFINITE).apply {
+                    setAction("Reconectar", object: View.OnClickListener{
+                        override fun onClick(v: View?) {
+                            viewModel.cadastrarUsuario(getUsuario())
+                        }
+
+                    })
+
+                    show()
+                    progressBar.visibility = View.GONE
+                    btSalvar.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    fun getUsuario() : Usuario{
+
+        val nome = etUserName.text.toString()
+        val email = etEmail.text.toString()
+        val senha = etPassword.text.toString()
+
+        return Usuario(nome, email, senha)
     }
 }
